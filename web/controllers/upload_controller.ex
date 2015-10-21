@@ -55,14 +55,21 @@ defmodule Eientei.UploadController do
   end
 
   defp generate_db_entry(name, loc, orig_name) do
+    import Ecto.Query, only: [from: 2]
     hash = md5(File.read! loc)
     %{size: size} = File.stat! loc
-    case Eientei.Repo.get_by(Eientei.Upload, hash: hash) do
+
+    query = from u in Eientei.Upload,
+        where: u.hash == ^hash,
+        select: u.location,
+        limit: 1
+
+    case Eientei.Repo.one(query) do
       nil -> 
         changeset = Eientei.Upload.changeset(%Eientei.Upload{}, %{:name => name, :location => loc, :hash => hash, :filename => orig_name, :size => size})
         {:ok, _user} = Eientei.Repo.insert(changeset)
         :ok
-      %{location: location} ->
+      location ->
         File.rm! loc
         changeset = Eientei.Upload.changeset(%Eientei.Upload{}, %{:name => name, :location => location, :hash => hash, :filename => orig_name, :size => size})
         {:ok, _user} = Eientei.Repo.insert(changeset)
