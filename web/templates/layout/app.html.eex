@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Fuwa Fuwa~</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+
+  <body>
+    <div class="container" role="main">
+      <%= @inner %>
+
+      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+
+      <p class="alert alert-info"><strong>Virus scans are a daily routine</strong> &mdash; if a file gets detected it will be removed without further notice.</p>
+      <p class="alert alert-info"><strong>Files are automatically archived to the IA</strong> &mdash; you can view archives here.</p>
+
+
+      <nav>
+        <ul>
+          <li>
+            <a href="/">Pantsu</a>
+          </li>
+          <li>
+            <a href="//p.pantsu.cat/">Paste</a>
+          </li>
+          <li>
+            <a href="tools.html">Tools</a>
+          </li>
+          <li>
+            <a href="//git.pantsu.cat/pantsu/pomf">Git</a>
+          </li>
+          <li>
+            <a href="other.html">Other</a>
+          </li>
+          <li>
+            <a href="//transparency.pantsu.cat">Transparency</a>
+          </li>
+        </ul>
+      </nav
+    </div> <!-- /container -->
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>
