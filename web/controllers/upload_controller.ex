@@ -16,7 +16,7 @@ defmodule Eientei.UploadController do
     case Enum.member? @illegal_exts, Path.extname(file.filename) do
       false ->
         %{size: size} = File.stat! file.path
-        if size <= @max_upload_size do
+        if size/(1000*1000) <= @max_upload_size do
           name = name_len 
           |> gen_name 
           |> move_file(file.path, file.filename)
