@@ -1,6 +1,9 @@
 defmodule Eientei.UploadController do
   use Eientei.Web, :controller
 
+  @max_upload_size Application.get_env(:eientei, :max_upload_size)
+  @use_ia Application.get_env(:eientei, :use_ia_archive)
+
   @illegal_exts [".ade", ".adp", ".bat", ".chm", ".cmd", ".com", ".cpl", ".exe", ".hta", ".ins", ".isp", ".jse", ".lib", ".lnk", ".mde", ".msc", ".msp", ".mst", ".pif", ".scr", ".sct", ".shb", ".sys", ".vb", ".vbe", ".vbs", ".vxd", ".wsc", ".wsf", ".wsh"]
 
   def upload(conn, %{"file" => file}) do
@@ -12,13 +15,19 @@ defmodule Eientei.UploadController do
     name_len = 6
     case Enum.member? @illegal_exts, Path.extname(file.filename) do
       false ->
-        name = name_len 
-        |> gen_name 
-        |> move_file(file.path, file.filename)
+        %{size: size} = File.stat! file.path
+        if size <= @max_upload_size do
+          name = name_len 
+          |> gen_name 
+          |> move_file(file.path, file.filename)
 
-        # json = %{"url" => url, "shorthash" => shash, "hash" => hash, "success" => success}
-        json = %{"url" => "/" <> name, "name" => name, "success" => true}
-        json conn, json
+          # json = %{"url" => url, "shorthash" => shash, "hash" => hash, "success" => success}
+          json = %{"url" => "/" <> name, "name" => name, "success" => true}
+          json conn, json
+        else
+          json = %{"url" => "/", "success" => false}
+          json conn, json
+        end
       true ->
         json = %{"url" => "/", "success" => false}
         json conn, json
@@ -45,13 +54,14 @@ defmodule Eientei.UploadController do
     new_path = "files/" <> name
     # Move file, since Elixir seems to not provide an equivalent
     System.cmd("mv", [path, new_path])
-    case generate_db_entry(name, new_path, old_name) do
-      :ok ->
+    {:ok, location} = generate_db_entry(name, new_path, old_name)
+    # Start async archive process
+    case @use_ia do
+      true -> 
+        GenServer.cast(Archiver, {:archive, name, location})
         name
-      :exists ->
-        name
+      false -> name
     end
-    # TODO: Task out the IA upload to some queue
   end
 
   defp generate_db_entry(name, loc, orig_name) do
@@ -68,12 +78,12 @@ defmodule Eientei.UploadController do
       nil -> 
         changeset = Eientei.Upload.changeset(%Eientei.Upload{}, %{:name => name, :location => loc, :hash => hash, :filename => orig_name, :size => size})
         {:ok, _user} = Eientei.Repo.insert(changeset)
-        :ok
+        {:ok, loc}
       location ->
         File.rm! loc
         changeset = Eientei.Upload.changeset(%Eientei.Upload{}, %{:name => name, :location => location, :hash => hash, :filename => orig_name, :size => size})
         {:ok, _user} = Eientei.Repo.insert(changeset)
-        :exists
+        {:ok, location}
     end
   end
 

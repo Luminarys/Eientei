@@ -11,6 +11,7 @@ defmodule Eientei do
       supervisor(Eientei.Endpoint, []),
       # Start the Ecto repository
       worker(Eientei.Repo, []),
+      worker(Eientei.Archiver, []),
       # Here you could define other workers and supervisors as children
       # worker(Eientei.Worker, [arg1, arg2, arg3]),
     ]

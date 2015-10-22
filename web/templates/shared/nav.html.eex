@@ -1,0 +1,35 @@
+<nav>
+  <ul>
+    <li>
+      <a href="/"><%= Application.get_env(:eientei, :service_name)%></a>
+    </li>
+    <li>
+      <a href="/faq">FAQ</a>
+    </li>
+    <li>
+      <a href="//github.com/luminarys/eientei">Code</a>
+    </li>
+    <!--
+    <li>
+      <a href="/info">Info</a>
+    </li>
+    --!>
+    <!--
+    <li>
+      <a href="//p.pantsu.cat/">Paste</a>
+    </li>
+    <li>
+      <a href="tools.html">Tools</a>
+    </li>
+    <li>
+      <a href="//git.pantsu.cat/pantsu/pomf">Git</a>
+    </li>
+    <li>
+      <a href="other.html">Other</a>
+    </li>
+    --!>
+    <li>
+      <a href="/transparency">Transparency</a>
+    </li>
+  </ul>
+</nav>

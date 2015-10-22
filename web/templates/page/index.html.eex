@@ -1,13 +1,24 @@
-<div class="container">
-  <h1>Fuwa~</h1>
-  <p class="lead">Max upload size is 32 Mb.</p>
-  <a href="#" class="target">Select or drop file(s)</a>
-  <input id="browse" class="hidden" type="file" multiple="">
-  <table class="table">
-      <thead>
-          <tr><td style="width: 30%"></td>
-          <td style="width: 70%"></td>
-      </tr></thead>
-      <tbody id="files"></tbody>
-  </table>
+  <div id="jumbotron">
+    <h1>Fuwa~</h1>
+    <p class="lead">Max upload size is <%= max_upload_size %> Mb.</p>
+    <a href="#" class="target">Select or drop file(s)</a>
+    <input id="browse" class="hidden" type="file" multiple="">
+    <table class="table">
+        <thead>
+            <tr><td style="width: 30%"></td>
+            <td style="width: 70%"></td>
+        </tr></thead>
+        <tbody id="files"></tbody>
+    </table>
+
+    <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+    <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+    
+    <p class="alert alert-info"><strong>Virus scans are a daily routine</strong> &mdash; if a file gets detected it will be removed without further notice.</p>
+    <%= if use_ia do %>
+    <p class="alert alert-info"><strong>Files are automatically archived</strong> &mdash; you can view archives <a href="https://archive.org/details/<%= ia_service_name %>_archive/">here</a>.</p>
+    <%= end %>
+    <p class="alert alert-info"><strong>Miss material design?</strong> &mdash; you can find it at <a href="//m.fuwa.se">m.fuwa.se</a>.</p>
+    <%= render Eientei.SharedView, "nav.html" %>
+  </div>
 </div>

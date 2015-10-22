@@ -5,6 +5,10 @@ defmodule Eientei.PageController do
     render conn, "index.html"
   end
 
+  def faq(conn, _params) do
+    render conn, "faq.html"
+  end
+
   def file(conn, %{"file" => file}) do
     case File.exists?("files/" <> file) do
       true ->

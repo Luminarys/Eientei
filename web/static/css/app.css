@@ -1,45 +1,24 @@
-/* Space out content a bit */
+/* Space out content a bit 
 body, form, ul, table {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+/**/
 
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
 /* Phoenix flash messages */
 .alert:empty { display: none; }
-
-/* Phoenix inline forms in links and buttons */
-form.link, form.button {
-  display: inline;
-}
-
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-}
-.logo {
-  width: 519px;
-  height: 71px;
-  display: inline-block;
-  margin-bottom: 1em;
-  background-image: url("/images/phoenix.png");
-  background-size: 519px 71px;
-}
-
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing {
-  padding-right: 15px;
-  padding-left: 15px;
-}
 
 /* Customize container */
 @media (min-width: 768px) {
   .container {
-    max-width: 730px;
+    max-width: 700px;
   }
-}
-.container-narrow > hr {
-  margin: 30px 0;
 }
 
 body {
@@ -49,16 +28,38 @@ body {
 	font-size: 14px;
 	height: 100%;
 	line-height: 20px;
+    padding-top: 20px;
+    padding-bottom: 40px;
 	margin: 0;
 }
 
-/* Main marketing message */
 .container {
-  text-align: center;
-	margin: 60px 0;
+    margin: 0 auto;
 }
 
-.container h1 {
+/* links */
+a {
+    color: #0078B4;
+    text-decoration: none !important;
+    transition: color 0.25s;
+}
+a:hover,
+a:focus,
+a:active {
+    color: #005580;
+}
+a:focus {
+    outline: thin dotted #333;
+/*  outline-offset: -2px;*/
+}
+
+/* Main marketing message */
+#jumbotron {
+    text-align: center;
+	margin: 30px 0;
+}
+
+#jumbotron h1 {
 	color: inherit;
 	font-family: inherit;
 	font-size: 72px;
@@ -69,7 +70,7 @@ body {
 	text-rendering: optimizelegibility;
 }
 
-.target {
+#jumbotron .target {
 	background: rgba(202, 230, 190, 0.75);
 	border: 1px solid #B7D1A0;
 	border-radius: 4px;
@@ -81,10 +82,10 @@ body {
 	text-shadow: 0 1px rgba(255, 255, 255, 0.5);
 	transition: background-color 0.25s, width 0.5s, height 0.5s;
 }
-.target:hover,
-.target:active,
-.target:focus,
-.target.drop {
+#jumbotron .target:hover,
+#jumbotron .target:active,
+#jumbotron .target:focus,
+#jumbotron .target.drop {
 	background-color: rgb(188, 228, 170);
 	text-decoration: none;
 }
@@ -114,27 +115,4 @@ nav > ul > li:after {
 nav > ul > li:last-child:after {
 	content: "";
 	margin: 0;
-}
-
-/* Supporting marketing content */
-.marketing {
-  margin: 35px 0;
-}
-
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-  /* Remove the padding we set earlier */
-  .header,
-  .marketing {
-    padding-right: 0;
-    padding-left: 0;
-  }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
-  }
 }
