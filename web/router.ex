@@ -20,6 +20,7 @@ defmodule Eientei.Router do
     get "/faq", PageController, :faq
     get "/info", PageController, :info
     get "/:file", PageController, :file
+    get "/:file/:rn", PageController, :file
   end
 
   scope "/api/", Eientei do

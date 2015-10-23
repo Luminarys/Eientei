@@ -35,7 +35,6 @@ defmodule Eientei.UploadController do
   end
 
   defp gen_name(length) do
-    # TODO: Query to make sure the name isn't in use
     name = :crypto.strong_rand_bytes(length) |> Base.url_encode64 |> binary_part(0, length)
     loc = "files/" <> name
     case File.exists?(loc) do
@@ -50,7 +49,6 @@ defmodule Eientei.UploadController do
 
   defp move_file(new_name, path, old_name) do
     name = new_name <> Path.extname(old_name)
-    IO.puts Path.extname(path)
     new_path = "files/" <> name
     # Move file, since Elixir seems to not provide an equivalent
     System.cmd("mv", [path, new_path])

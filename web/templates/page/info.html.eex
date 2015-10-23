@@ -4,5 +4,5 @@
 </div>
 	<ul>
       <li><%= service_name %> is a free file hosting service powered by Eientei.</li>
-      <li>We currently are hosting a total of <%= get_file_count %> uploads totalling <%= get_total_file_size %> megabytes in size.</li>
+      <li>We currently are hosting <%= get_file_count %> uploads totalling <%= get_total_file_size %> megabytes in size.</li>
 	</ul>
