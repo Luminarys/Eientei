@@ -9,7 +9,7 @@
 	  <li>No child porn, malware, or anything illegal under French laws.</li>
       <li>Certain executable filetypes have been disallowed.</li>
 	  <li>No data is collected or logged by us. This won't change.</li>
-      <li>Please contact me at <a href="mailto:<%= service_url %>">contact@<%= service_url %></a> for any questions.</li>
+      <li>Please contact me at <a href="mailto:<%= contact_email %>"><%= contact_email %></a> for any questions.</li>
 	  <li>If you wish to send me any DMCA requests please contact me at <a href="mailto:abuse@<%= service_url %>>">abuse@<%= service_url %></a></li>
 	  <li>If any changes to these policies happen you will be informed about them.</li>
 	  <li>I will keep the site as transparent as possible. This will include any files that I remove will be publically listed and have a copy of the DMCA notice. For more information please visit the <a href="/transparency">transparency information</a> page.</li>

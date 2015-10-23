@@ -3,6 +3,7 @@ defmodule Eientei.PageView do
 
   @service_name Application.get_env(:eientei, :service_name)
   @service_url Application.get_env(:eientei, :service_url)
+  @contact_email Application.get_env(:eientei, :contact_email)
   @max_upload_size Application.get_env(:eientei, :max_upload_size)
 
   @use_ia Application.get_env(:eientei, :use_ia_archive)
@@ -13,6 +14,7 @@ defmodule Eientei.PageView do
 
   def service_name, do: @service_name
   def service_url, do: @service_url
+  def contact_email, do: @contact_email
   def max_upload_size, do: @max_upload_size
 
   def use_ia, do: @use_ia
