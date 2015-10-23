@@ -21,8 +21,12 @@ config :eientei,
 # Set this to true to enable it.
 config :eientei,
   fallback_service: false,
+  # Set these two options to create an alert on the front page telling users how to find your fallback/old service
+  fallback_service_alert: false,
+  # Don't put a http(s) on this, just domain.tld
+  fallback_service_home_page: "previous-pomf-homepage-url.tld",
   # Don't put a trailing / on this
-  fallback_service_url: "https://previous-pomf-file-url"
+  fallback_service_url: "https://previous-pomf-file-location.tld"
 
 # GENERAL CONFIGURATION
 # Note that it is assumed that you have an abuse@ email

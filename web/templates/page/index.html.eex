@@ -18,7 +18,9 @@
     <%= if use_ia do %>
     <p class="alert alert-info"><strong>Files are automatically archived</strong> &mdash; you can view archives <a href="https://archive.org/details/<%= ia_service_name %>_archive/">here</a>.</p>
     <%= end %>
-    <p class="alert alert-info"><strong>Miss material design?</strong> &mdash; you can find it at <a href="//m.fuwa.se">m.fuwa.se</a>.</p>
+    <%= if fallback_alert do %>
+      <p class="alert alert-info"><strong>We've changed sites</strong> &mdash; you can find the old one at <a href="//<%= fallback_homepage %>"><%= fallback_homepage %></a>.</p>
+    <%= end %>
     <%= render Eientei.SharedView, "nav.html" %>
   </div>
 </div>

@@ -19,7 +19,7 @@ A simple file uploading and sharing service.
 3. In the two secret config files and using the generated secret, set the `secret_key_base` parameter.
 4. In your two secret configs, look through the settings and set them accordingly:
     * Set the `use_ia_archive` option to true if you would like automatic archivals. If enabled fill out the fields accordingly.
-    * Set the `fallback_service` to true if you're migrating from a previous service. If you enable it, set the url parameter, making sure not to add on a trailing /.
+    * Set the `fallback_service` to true if you're migrating from a previous service. If you enable it, set the url parameter, making sure not to add on a trailing / and look at the alert params.
     * Configure all settings in the general configuration and database configuration sections.
 
 ### Setup
@@ -39,3 +39,4 @@ A simple file uploading and sharing service.
 1. Improve code control flow in various places with Monads
 2. Bug fixes/general code checks
 3. Custom styling
+4. Tests
