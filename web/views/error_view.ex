@@ -2,7 +2,7 @@ defmodule Eientei.ErrorView do
   use Eientei.Web, :view
 
   def render("404.html", _assigns) do
-    "Page not found"
+    "File not found!"
   end
 
   def render("500.html", _assigns) do

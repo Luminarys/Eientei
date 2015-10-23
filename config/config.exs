@@ -19,23 +19,9 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-# PLEASE OVERRIDE THESE IN THE prod.secret.exs or dev.secret.exs FILE!
+# Link to git repo
 config :eientei,
-  # SET THIS TO FALSE IF YOU DO NOT WANT AUTO-ARCHIVING
-  use_ia_archive: true,
-  ia_access: "YOUR ACCESS KEY",
-  ia_secret: "YOUR SECRET KEY",
-  ia_service_name: "YOUR SERVICE NAME",
-  ia_sponsor: "YOUR REAL NAME OR HANDLE"
-
-# Various general information bits
-# Note that it is assumed that you have an abuse@ email
-config :eientei,
-  service_name: "Fuwa",
-  service_url: "fuwa.se",
-  contact_email: "luminarys@fuwa.se",
-  # Max UL size in MegaBytes
-  max_upload_size: 32
+  git_repo_url: "https://github.com/luminarys/eientei"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

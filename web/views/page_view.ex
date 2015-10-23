@@ -12,4 +12,20 @@ defmodule Eientei.PageView do
   def max_upload_size, do: @max_upload_size
   def use_ia, do: @use_ia
   def ia_service_name, do: @ia_service_name
+
+  def get_total_file_size do
+    import Ecto.Query, only: [from: 2]
+    size_query = from u in Eientei.Upload,
+        distinct: u.location,
+        select: u.size
+    sizes = Eientei.Repo.all(size_query)
+    Float.floor(Enum.reduce(sizes, 0, &(&1/(1000*1000) + &2)), 1)
+  end
+
+  def get_file_count do
+    import Ecto.Query, only: [from: 2]
+    count_query = from u in Eientei.Upload,
+                  select: count(u.id)
+    Eientei.Repo.one(count_query)
+  end
 end

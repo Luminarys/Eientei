@@ -18,6 +18,7 @@ defmodule Eientei.Router do
 
     get "/", PageController, :index
     get "/faq", PageController, :faq
+    get "/info", PageController, :info
     get "/:file", PageController, :file
   end
 

@@ -1,0 +1,8 @@
+<div id="jumbotron" role="main">
+  <h1>Info</h1>
+  <%= render Eientei.SharedView, "nav.html" %>
+</div>
+	<ul>
+      <li><%= service_name %> is a free file hosting service powered by Eientei.</li>
+      <li>We currently are hosting a total of <%= get_file_count %> uploads totalling <%= get_total_file_size %> megabytes in size.</li>
+	</ul>

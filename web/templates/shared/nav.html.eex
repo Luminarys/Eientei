@@ -7,13 +7,11 @@
       <a href="/faq">FAQ</a>
     </li>
     <li>
-      <a href="//github.com/luminarys/eientei">Code</a>
+      <a href="<%= git_repo_url %>">Code</a>
     </li>
-    <!--
     <li>
       <a href="/info">Info</a>
     </li>
-    --!>
     <!--
     <li>
       <a href="//p.pantsu.cat/">Paste</a>
