@@ -9,7 +9,6 @@ A simple file uploading and sharing service.
 
 ## Installation
 ### Prerequisites
-* Erlang
 * Elixir
 * NPM
 * PostgreSQL
@@ -17,12 +16,7 @@ A simple file uploading and sharing service.
 ### Configuration
 1. In `config/` copy file `template.secret.exs` to `dev.secret.exs` and `prod.secret.exs`.
 2. In the main directory run `mix phoenix.gen.secret` to generate a new secret.
-3. In the two secret config files and using the generated secret, modify the line:
-```
-config :eientei, Eientei.Endpoint,
-  # Generate this by running mix phoenix.gen.secret
-  secret_key_base: "Insert generated secret key here!"
-```
+3. In the two secret config files and using the generated secret, set the `secret_key_base` parameter.
 4. In your two secret configs, look through the settings and set them accordingly:
     * Set the `use_ia_archive` option to true if you would like automatic archivals. If enabled fill out the fields accordingly.
     * Set the `fallback_service` to true if you're migrating from a previous service. If you enable it, set the url parameter, making sure not to add on a trailing /.
@@ -44,3 +38,4 @@ config :eientei, Eientei.Endpoint,
 ## TODO
 1. Improve code control flow in various places with Monads
 2. Bug fixes/general code checks
+3. Custom styling
