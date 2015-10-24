@@ -91,11 +91,18 @@ function uploadFile(file, progress) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/api/upload");
     xhr.onload = function() {
-        var response = JSON.parse(xhr.responseText);
-        if (response.success) {
-            progress.innerHTML = "<a href='" + response.url + "'>" + response.name + "</a>";
+        var respStatus = xhr.status;
+        if (respStatus == 200) {
+            var response = JSON.parse(xhr.responseText);
+            if (response.success) {
+                progress.innerHTML = "<a href='" + response.url + "'>" + response.name + "</a>";
+            } else {
+                progress.innerHTML = "Invalid File!";
+            }
+        } else if (respStatus == 413) {
+            progress.innerHTML = "File too big!";
         } else {
-            progress.innerHTML = "Invalid File!";
+            progress.innerHTML = "Server error!";
         }
     };
     xhr.upload.onprogress = function(e) {

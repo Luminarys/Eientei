@@ -22,13 +22,17 @@ defmodule Eientei.Endpoint do
   plug Plug.RequestId
   plug Plug.Logger
 
+  @max_upload_size Application.get_env(:eientei, :max_upload_size)
+
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
-    json_decoder: Poison
+    json_decoder: Poison,
+    length: @max_upload_size * 1000 * 1000
 
   plug Plug.MethodOverride
   plug Plug.Head
+
 
   plug Plug.Session,
     store: :cookie,

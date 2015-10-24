@@ -90,6 +90,11 @@ a:focus {
 	text-decoration: none;
 }
 
+.alert {
+    padding: 10px !important;
+}
+
+
 /**
  * NAVIGATION LINKS
  */
