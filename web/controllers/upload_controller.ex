@@ -3,7 +3,7 @@ defmodule Eientei.UploadController do
 
   @max_upload_size Application.get_env(:eientei, :max_upload_size)
   @use_ia Application.get_env(:eientei, :use_ia_archive)
-  @file_access_url Application.get_env(:eientei, :file_access_url_)
+  @file_access_url Application.get_env(:eientei, :file_access_url)
 
   @illegal_exts [".ade", ".adp", ".bat", ".chm", ".cmd", ".com", ".cpl", ".exe", ".hta", ".ins", ".isp", ".jse", ".lib", ".lnk", ".mde", ".msc", ".msp", ".mst", ".pif", ".scr", ".sct", ".shb", ".sys", ".vb", ".vbe", ".vbs", ".vxd", ".wsc", ".wsf", ".wsh"]
 
@@ -24,15 +24,15 @@ defmodule Eientei.UploadController do
           |> move_file(file.path, file.filename)
 
           # json = %{"url" => url, "shorthash" => shash, "hash" => hash, "success" => success}
-          json = %{"url" => "#{@file_access_url}/#{name}", "name" => name, "success" => true}
-          json conn, json
+          json_resp = %{"url" => "#{@file_access_url}/#{name}", "name" => name, "success" => true}
+          json conn, json_resp
         else
-          json = %{"url" => "/", "success" => false}
-          json conn, json
+          json_resp = %{"url" => "/", "success" => false}
+          json conn, json_resp
         end
       true ->
-        json = %{"url" => "/", "success" => false}
-        json conn, json
+        json_resp = %{"url" => "/", "success" => false}
+        json conn, json_resp
     end
   end
 
