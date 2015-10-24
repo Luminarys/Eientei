@@ -1,14 +1,16 @@
 build:
-	MIX_ENV=prod mix deps.get
-	MIX_ENV=prod mix compile
+	export MIX_ENV=prod
+	mix deps.get
+	mix compile
 	./node_modules/brunch/bin/brunch build --production
-	MIX_ENV=prod mix phoenix.digest
+	mix phoenix.digest
 
 setup:
+	export MIX_ENV=prod
 	npm install
-	MIX_ENV=prod mix deps.get
-	MIX_ENG=prod mix compile
+	mix deps.get
+	mix compile
 	./node_modules/brunch/bin/brunch build --production
-	MIX_ENV=prod mix phoenix.digest
-	MIX_ENV=prod mix ecto.create
-	MIX_ENV=prod mix ecto.migrate
+	mix phoenix.digest
+	mix ecto.create
+	mix ecto.migrate
