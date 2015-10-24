@@ -16,27 +16,23 @@ A simple file uploading and sharing service.
 ### Configuration
 1. In `config/` copy file `template.secret.exs` to `dev.secret.exs` and `prod.secret.exs`.
 2. In the main directory run `mix phoenix.gen.secret` to generate a new secret.
-3. In the two secret config files and using the generated secret, set the `secret_key_base` parameter.
-4. In your two secret configs, look through the settings and set them accordingly:
+3. In the prod secret config files, set the `secret_key_base` parameter using this generated string. Note that if you want to run Eientei in the development environment you should generate another secret key, and apply the following instructions to the dev.secret.exs with appropriately modified settings.
+4. In prod secret config, look through the settings and set them accordingly:
     * Set the `use_ia_archive` option to true if you would like automatic archivals. If enabled fill out the fields accordingly.
     * Set the `fallback_service` to true if you're migrating from a previous service. If you enable it, set the url parameter, making sure not to add on a trailing / and look at the alert params.
     * Configure all settings in the general configuration and database configuration sections.
 
 ### Setup
-1. In the main directory run `npm install`
-2. Run `MIX_ENV=prod mix deps.get` to obtain dependencies
-3. Run `MIX_ENV=prod mix compile` to compile code and dependencies
-4. Compile assets by running `./node_modules/brunch/bin/brunch build --production`
-5. Digest assets by running `MIX_ENV=prod mix phoenix.digest`
-6. Run `MIX_ENV=prod mix ecto.create` to create the database in PostgreSQL
-7. Run `MIX_ENV=prod mix ecto.migrate` to create the tables within the database
+* For first time setup, or if the db needs updates run `make setup`
+* If you just want to recompile assets after an update, run `make`
 
 ### Running
-1. Run `MIX_ENV=prod mix phoenix.server` to start the server.
-2. Success! You have succesfully started Eientei and it will be running on port 4000. You should now setup nginx or some other web service to reverse proxy connections to the service.
+1. Run `MIX_ENV=prod mix phoenix.server` to start the server. If you'd like to use a custom port, run `PORT=your_port MIX_ENV=prod mix phoenix.server`.
+2. Success! You have succesfully started Eientei and it will be running on port 21111 or the one you defined. You should now setup nginx or some other web service to reverse proxy connections to the service.
 
 ## TODO
-1. Improve code control flow in various places with Monads
+1. Improve code control flow in various places with Monads or improved pipes
 2. Bug fixes/general code checks
 3. Custom styling
 4. Tests
+5. Implement a magic number checker for better file ID

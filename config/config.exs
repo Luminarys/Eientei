@@ -14,6 +14,16 @@ config :eientei, Eientei.Endpoint,
   pubsub: [name: Eientei.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+# Set port based on env_var, otherwise use default of 21111
+case System.get_env("PORT") do
+  nil ->
+    config :eientei, Eientei.Endpoint,
+      http: [port: 21111]
+  port_num ->
+    config :eientei, Eientei.Endpoint,
+      http: [port: port_num]
+end
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

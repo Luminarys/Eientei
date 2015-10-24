@@ -3,6 +3,7 @@ defmodule Eientei.UploadController do
 
   @max_upload_size Application.get_env(:eientei, :max_upload_size)
   @use_ia Application.get_env(:eientei, :use_ia_archive)
+  @file_access_url Application.get_env(:eientei, :file_access_url_)
 
   @illegal_exts [".ade", ".adp", ".bat", ".chm", ".cmd", ".com", ".cpl", ".exe", ".hta", ".ins", ".isp", ".jse", ".lib", ".lnk", ".mde", ".msc", ".msp", ".mst", ".pif", ".scr", ".sct", ".shb", ".sys", ".vb", ".vbe", ".vbs", ".vxd", ".wsc", ".wsf", ".wsh"]
 
@@ -13,6 +14,7 @@ defmodule Eientei.UploadController do
     # and modifies file location if necessary,
     # removing any duplicates
     name_len = 6
+    # TODO: Write a magic number => MIME checking library
     case Enum.member? @illegal_exts, Path.extname(file.filename) do
       false ->
         %{size: size} = File.stat! file.path
@@ -22,7 +24,7 @@ defmodule Eientei.UploadController do
           |> move_file(file.path, file.filename)
 
           # json = %{"url" => url, "shorthash" => shash, "hash" => hash, "success" => success}
-          json = %{"url" => "/" <> name, "name" => name, "success" => true}
+          json = %{"url" => "#{@file_access_url}/#{name}", "name" => name, "success" => true}
           json conn, json
         else
           json = %{"url" => "/", "success" => false}
@@ -92,5 +94,4 @@ defmodule Eientei.UploadController do
     |> List.flatten
     |> :erlang.list_to_bitstring
   end
-
 end
