@@ -16,7 +16,7 @@
     
     <p class="alert alert-info"><strong>Virus scans are a daily routine</strong> &mdash; if a file gets detected it will be removed without further notice.</p>
     <%= if use_ia do %>
-    <p class="alert alert-info"><strong>Files are automatically archived</strong> &mdash; you can view archives <a href="https://archive.org/details/<%= ia_service_name %>_archive/">here</a>.</p>
+    <p class="alert alert-info"><strong>Files are routinely archived</strong> &mdash; this happens on a monthly basis, and you can find files <a href="https://archive.org/details/<%= ia_service_name %>_archive/">here</a>.</p>
     <%= end %>
     <%= if fallback_alert do %>
       <p class="alert alert-info"><strong>We've changed sites</strong> &mdash; you can find the old one at <a href="//<%= fallback_homepage %>"><%= fallback_homepage %></a>.</p>

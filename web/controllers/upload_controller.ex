@@ -56,9 +56,10 @@ defmodule Eientei.UploadController do
     System.cmd("mv", [path, new_path])
     {:ok, location} = generate_db_entry(name, new_path, old_name)
     # Start async archive process
+    # Disabled for now! TBD in a cron-link fashion
     case @use_ia do
       true -> 
-        GenServer.cast(Archiver, {:archive, name, location})
+        # GenServer.cast(Archiver, {:archive, name, location})
         name
       false -> name
     end
