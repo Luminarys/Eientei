@@ -23,6 +23,7 @@ A simple file uploading and sharing service.
     * Configure all settings in the general configuration and database configuration sections.
 
 ### Setup
+* Run `EXPORT MIX_ENV=prod`, or use dev instead of prod if you'd like to use the development environment.
 * For first time setup, or if the db needs updates run `make setup`
 * If you just want to recompile assets after an update, run `make`
 
