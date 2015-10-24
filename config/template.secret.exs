@@ -33,9 +33,9 @@ config :eientei,
 config :eientei,
   service_name: "Service Name",
   service_url: "service.tld",
-  # This should be used to specify a response url.
+  # This should be used to specify a response url. Make sure to set http/https properly
   # If you want to serve files at f.service.tld set that here. Please don't add a trailing /
-  file_access_url: "service.tld",
+  file_access_url: "https://service.tld",
   contact_email: "mycontactaddress@email.com",
   # Max UL size in MegaBytes
   max_upload_size: 32
