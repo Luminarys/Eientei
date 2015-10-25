@@ -13,59 +13,58 @@ defmodule Eientei.UploadController do
     # Check hashes file, sees if hash is in db
     # and modifies file location if necessary,
     # removing any duplicates
-    name_len = 6
-    # TODO: Write a magic number => MIME checking library
-    case Enum.member? @illegal_exts, Path.extname(file.filename) do
-      false ->
-        %{size: size} = File.stat! file.path
-        if size/(1000*1000) <= @max_upload_size do
-          name = name_len 
-          |> gen_name 
-          |> move_file(file.path, file.filename)
+    use Pipe
 
-          # json = %{"url" => url, "shorthash" => shash, "hash" => hash, "success" => success}
-          json_resp = %{"url" => "#{@file_access_url}/#{name}", "name" => name, "success" => true}
-          json conn, json_resp
-        else
-          json_resp = %{"url" => "/", "success" => false}
-          json conn, json_resp
-        end
-      true ->
-        json_resp = %{"url" => "/", "success" => false}
-        json conn, json_resp
+    name_len = 6
+
+    resp = Pipe.pipe_matching val, {:ok, val},
+    {:ok, file}
+    |> check_magic_number
+    |> gen_name(name_len)
+    |> move_file
+    |> generate_db_entry
+
+    IO.inspect resp
+
+    json conn, resp
+  end
+
+  defp success(name), do: %{"url" => "#{@file_access_url}/#{name}", "name" => name, "success" => true}
+  defp failure(reason), do: %{"url" => "/", "success" => false, "reason" => reason}
+
+  defp check_magic_number(file) do
+    IO.puts "Checking magic num"
+    case is_exe(hd(Enum.take(File.stream!(file.path),1))) do
+      false -> {:ok, file}
+      true -> failure "Exe's are not allowed!"
     end
   end
 
-  defp gen_name(length) do
-    name = :crypto.strong_rand_bytes(length) |> Base.url_encode64 |> binary_part(0, length)
+  defp gen_name(file, length) do
+    name = :crypto.rand_bytes(length) |> Base.url_encode64 |> binary_part(0, length)
     loc = "files/" <> name
     case File.exists?(loc) do
-      true -> gen_name(length)
+      true -> gen_name(file, length)
       false ->
         case Eientei.Repo.get_by(Eientei.Upload, name: name) do
-          nil -> name
-          _ -> gen_name(length)
+          nil -> {:ok, {file, name}}
+          _ -> gen_name(file, length)
         end
     end
   end
 
-  defp move_file(new_name, path, old_name) do
+  defp move_file({file, new_name}) do
+    path = file.path
+    old_name = file.filename
     name = new_name <> Path.extname(old_name)
     new_path = "files/" <> name
     # Move file, since Elixir seems to not provide an equivalent
     System.cmd("mv", [path, new_path])
-    {:ok, location} = generate_db_entry(name, new_path, old_name)
-    # Start async archive process
-    # Disabled for now! TBD in a cron-link fashion
-    case @use_ia do
-      true -> 
-        # GenServer.cast(Archiver, {:archive, name, location})
-        name
-      false -> name
-    end
+    {:ok, {file, new_name, name, new_path, old_name}}
   end
 
-  defp generate_db_entry(name, loc, orig_name) do
+  defp generate_db_entry({_file, name, full_name, loc, orig_name}) do
+    IO.puts "Adding entry to DB"
     import Ecto.Query, only: [from: 2]
     hash = md5(File.read! loc)
     %{size: size} = File.stat! loc
@@ -79,12 +78,12 @@ defmodule Eientei.UploadController do
       nil -> 
         changeset = Eientei.Upload.changeset(%Eientei.Upload{}, %{:name => name, :location => loc, :hash => hash, :filename => orig_name, :size => size})
         {:ok, _user} = Eientei.Repo.insert(changeset)
-        {:ok, loc}
+        success full_name
       location ->
         File.rm! loc
         changeset = Eientei.Upload.changeset(%Eientei.Upload{}, %{:name => name, :location => location, :hash => hash, :filename => orig_name, :size => size})
         {:ok, _user} = Eientei.Repo.insert(changeset)
-        {:ok, location}
+        success full_name
     end
   end
 
@@ -95,4 +94,7 @@ defmodule Eientei.UploadController do
     |> List.flatten
     |> :erlang.list_to_bitstring
   end
+
+  defp is_exe(<<77::8, 90::8, _rest::binary>>), do: true
+  defp is_exe(_data), do: false
 end

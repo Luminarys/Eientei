@@ -36,6 +36,7 @@ defmodule Eientei.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:mimerl, "~> 1.0"},
      {:httpoison, "~> 0.7.4"},
+     {:pipe, "~> 0.0.2"},
      {:cowboy, "~> 1.0"}]
   end
 end

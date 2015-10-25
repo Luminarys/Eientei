@@ -97,7 +97,7 @@ function uploadFile(file, progress) {
             if (response.success) {
                 progress.innerHTML = "<a href='" + response.url + "'>" + response.name + "</a>";
             } else {
-                progress.innerHTML = "Invalid File!";
+                progress.innerHTML = "Error: " + response.reason;
             }
         } else if (respStatus == 413) {
             progress.innerHTML = "File too big!";

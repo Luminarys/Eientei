@@ -32,8 +32,6 @@ A simple file uploading and sharing service.
 2. Success! You have succesfully started Eientei and it will be running on port 21111 or the one you defined. You should now setup nginx or some other web service to reverse proxy connections to the service.
 
 ## TODO
-1. Improve code control flow in various places with Monads or improved pipes
-2. Bug fixes/general code checks
-3. Custom styling
-4. Tests
-5. Implement a magic number checker for better file ID
+1. Bug fixes/general code checks
+2. Custom styling
+3. Tests
