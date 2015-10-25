@@ -1,0 +1,33 @@
+<article>
+  <div id="jumbotron" role="main">
+    <h1>Tools</h1>
+    <%= render Eientei.SharedView, "nav.html" %>
+  </div>
+  <section>
+    <h2>fuwa-ul</h2>
+    <dl>
+    	<dt>Download</dt>
+    	<dd><a href="https://github.com/Luminarys/Fuwa-Tools/blob/master/fuwa-ul.sh">https://github.com/Luminarys/fuwa-tools</a></dd>
+    	<dt>Contact</dt>
+    	<dd><a href="https://github.com/Luminarys">https://github.com/Luminarys</a></dd>
+    </dl>
+  </section>
+  <section>
+    <h2>desktop-capture</h2>
+    <dl>
+    	<dt>Download</dt>
+    	<dd><a href="https://github.com/Luminarys/Fuwa-Tools/blob/master/desktop-ss.sh">https://github.com/Luminarys/fuwa-tools</a></dd>
+    	<dt>Contact</dt>
+    	<dd><a href="https://github.com/Luminarys">https://github.com/Luminarys</a></dd>
+    </dl>
+  </section>
+  <section>
+    <h2>window-capture</h2>
+    <dl>
+    	<dt>Download</dt>
+    	<dd><a href="https://github.com/Luminarys/Fuwa-Tools/blob/master/window-ss.sh">https://github.com/Luminarys/fuwa-tools</a></dd>
+    	<dt>Contact</dt>
+    	<dd><a href="https://github.com/Luminarys">https://github.com/Luminarys</a></dd>
+    </dl>
+  </section>
+</article>

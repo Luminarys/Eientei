@@ -10,7 +10,10 @@
       <a href="<%= git_repo_url %>">Code</a>
     </li>
     <li>
-      <a href="/info">Info</a>
+      <a href="/contact">Contact</a>
+    </li>
+    <li>
+      <a href="/tools">Tools</a>
     </li>
     <!--
     <li>

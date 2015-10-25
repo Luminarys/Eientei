@@ -53,4 +53,12 @@ defmodule Eientei.PageController do
   def info(conn, _params) do
     render conn, "info.html"
   end
+
+  def contact(conn, _params) do
+    render conn, "contact.html"
+  end
+
+  def tools(conn, _params) do
+    render conn, "tools.html"
+  end
 end

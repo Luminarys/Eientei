@@ -1,0 +1,11 @@
+<article>
+  <div id="jumbotron" role="main">
+    <h1>Info</h1>
+    <%= render Eientei.SharedView, "nav.html" %>
+  </div>
+  <ul>
+    <li>Please contact me at <a href="mailto:<%= contact_email %>"><%= contact_email %></a> if you have any questions or concerns.</li>
+    <li>If you wish to send me any DMCA requests or report any otherwise illegal material please contact me at <a href="mailto:abuse@<%= service_url %>>">abuse@<%= service_url %></a></li>
+    <li>If you want to chat or discuss development of Fuwa, you can join #fuwa on Rizon. If you're interested in the development of pomf clones and general file hosting, join #pomfret on Rizon.</li>
+  </ul>
+</article>
