@@ -18,7 +18,7 @@ defmodule Eientei.Mixfile do
   def application do
     [mod: {Eientei, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex, :httpoison]]
+                    :phoenix_ecto, :postgrex, :httpoison, :con_cache]]
   end
 
   # Specifies which paths to compile per environment
@@ -37,6 +37,7 @@ defmodule Eientei.Mixfile do
      {:mimerl, "~> 1.0"},
      {:httpoison, "~> 0.7.4"},
      {:pipe, "~> 0.0.2"},
+     {:con_cache, "~> 0.9.0"},
      {:cowboy, "~> 1.0"}]
   end
 end

@@ -12,6 +12,13 @@ defmodule Eientei do
       # Start the Ecto repository
       worker(Eientei.Repo, []),
       worker(Eientei.Archiver, []),
+      worker(ConCache, [
+        [
+          ttl_check: :timer.seconds(30),
+          ttl: :timer.minutes(30),
+          touch_on_read: true
+        ],
+        [name: :file_cache]])
       # Here you could define other workers and supervisors as children
       # worker(Eientei.Worker, [arg1, arg2, arg3]),
     ]

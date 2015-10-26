@@ -20,7 +20,9 @@ defmodule Eientei.Router do
     get "/faq", PageController, :faq
     get "/contact", PageController, :contact
     get "/tools", PageController, :tools
+    # Let's not break compat quite yet
     get "/:file", PageController, :file
+    get "/f/:file", PageController, :file
     get "/:file/:rn", PageController, :file
   end
 

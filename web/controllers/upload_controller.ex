@@ -3,7 +3,6 @@ defmodule Eientei.UploadController do
 
   @max_upload_size Application.get_env(:eientei, :max_upload_size)
   @use_ia Application.get_env(:eientei, :use_ia_archive)
-  @file_access_domain Application.get_env(:eientei, :file_access_domain)
 
   @illegal_exts [".ade", ".adp", ".bat", ".chm", ".cmd", ".com", ".cpl", ".exe", ".hta", ".ins", ".isp", ".jse", ".lib", ".lnk", ".mde", ".msc", ".msp", ".mst", ".pif", ".scr", ".sct", ".shb", ".sys", ".vb", ".vbe", ".vbs", ".vxd", ".wsc", ".wsf", ".wsh"]
 
@@ -24,16 +23,13 @@ defmodule Eientei.UploadController do
     |> move_file
     |> generate_db_entry
 
-    IO.inspect resp
-
     json conn, resp
   end
 
-  defp success(name), do: %{"url" => "#{@file_access_domain}/#{name}", "name" => name, "success" => true}
+  defp success(name), do: %{"url" => "/f/#{name}", "name" => name, "success" => true}
   defp failure(reason), do: %{"url" => "/", "success" => false, "reason" => reason}
 
   defp check_magic_number(file) do
-    IO.puts "Checking magic num"
     case is_exe(hd(Enum.take(File.stream!(file.path),1))) do
       false -> {:ok, file}
       true -> failure "Exe's are not allowed!"
@@ -64,9 +60,12 @@ defmodule Eientei.UploadController do
   end
 
   defp generate_db_entry({_file, name, full_name, loc, orig_name}) do
-    IO.puts "Adding entry to DB"
     import Ecto.Query, only: [from: 2]
-    hash = md5(File.read! loc)
+    r = File.read! loc
+    ConCache.put(:file_cache, full_name, r)
+    hash = md5(r)
+    # Perhaps find a better place to do this
+    Task.start(fn -> ConCache.put(:file_cache, full_name, r) end)
     %{size: size} = File.stat! loc
 
     query = from u in Eientei.Upload,
