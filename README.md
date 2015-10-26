@@ -29,6 +29,7 @@ A simple file uploading and sharing service.
 
 ### Running
 1. Run `MIX_ENV=prod mix phoenix.server` to start the server. If you'd like to use a custom port, run `PORT=your_port MIX_ENV=prod mix phoenix.server`.
+Alternatively you can run `./deploy.sh` which will start your server on either port 21111 or 21112 depending on which one is occupied. You can use this to do upgrades production, setting your nginx to try the 21111 server then 21112 with an upstream block and then just starting a new instance after an upgrade and shutting off the old one.
 2. Success! You have succesfully started Eientei and it will be running on port 21111 or the one you defined. You should now setup nginx or some other web service to reverse proxy connections to the service.
 
 ## TODO
