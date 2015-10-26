@@ -3,7 +3,7 @@ defmodule Eientei.UploadController do
 
   @max_upload_size Application.get_env(:eientei, :max_upload_size)
   @use_ia Application.get_env(:eientei, :use_ia_archive)
-  @file_access_url Application.get_env(:eientei, :file_access_url)
+  @file_access_domain Application.get_env(:eientei, :file_access_domain)
 
   @illegal_exts [".ade", ".adp", ".bat", ".chm", ".cmd", ".com", ".cpl", ".exe", ".hta", ".ins", ".isp", ".jse", ".lib", ".lnk", ".mde", ".msc", ".msp", ".mst", ".pif", ".scr", ".sct", ".shb", ".sys", ".vb", ".vbe", ".vbs", ".vxd", ".wsc", ".wsf", ".wsh"]
 
@@ -29,7 +29,7 @@ defmodule Eientei.UploadController do
     json conn, resp
   end
 
-  defp success(name), do: %{"url" => "#{@file_access_url}/#{name}", "name" => name, "success" => true}
+  defp success(name), do: %{"url" => "#{@file_access_domain}/#{name}", "name" => name, "success" => true}
   defp failure(reason), do: %{"url" => "/", "success" => false, "reason" => reason}
 
   defp check_magic_number(file) do
