@@ -54,9 +54,9 @@ function uploadFile(file, progress) {
     if (respStatus === 200) {
       const response = JSON.parse(xhr.responseText);
       if (response.success) {
-        progress.innerHTML = '<a href="' + response.url + '">' + response.name + '</a>';
+        progress.innerHTML = ['<a href="', response.url, '">', response.name, '</a>'].join('');
       } else {
-        progress.innerHTML = 'Error: ' + response.reason;
+        progress.innerHTML = ['Error: ', response.reason].join('');
       }
     } else if (respStatus === 413) {
       progress.innerHTML = 'File too big!';
@@ -65,30 +65,29 @@ function uploadFile(file, progress) {
     }
   };
 
-  xhr.upload.onprogress = function incProgress(progEvent) {
-    if (progEvent.lengthComputable) {
-      const progressPercent = Math.floor((progEvent.loaded / progEvent.total) * 100);
-      bar.style.width = progressPercent + '%';
-      bar.textContent = progressPercent + '%';
+  xhr.upload.onprogress = function incProgress(evt) {
+    if (evt.lengthComputable) {
+      const progressPercent = Math.floor((evt.loaded / evt.total) * 100);
+      bar.style.width = [progressPercent, '%'].join('');
+      bar.textContent = [progressPercent, '%'].join('');
     }
   };
 
   const form = new FormData();
-  form.append('key', window.api_key);
   form.append('file', file);
   xhr.send(form);
 }
 
-function dragNOP(dragNOPEvent) {
-  dragNOPEvent.stopPropagation();
-  dragNOPEvent.preventDefault();
+function dragNOP(evt) {
+  evt.stopPropagation();
+  evt.preventDefault();
 }
 
-function handleDragDrop(dragDropEvent) {
-  dragNOP(dragDropEvent);
-  const len = dragDropEvent.dataTransfer.files.length;
+function handleDragDrop(evt) {
+  dragNOP(evt);
+  const len = evt.dataTransfer.files.length;
   for (let i = 0; i < len; i++) {
-    const file = dragDropEvent.dataTransfer.files[i];
+    const file = evt.dataTransfer.files[i];
     const row = addRow(file);
     uploadFile(file, row);
   }
@@ -108,8 +107,8 @@ browse.addEventListener('change', function onChange() {
   }
 });
 
-document.querySelector('.target').addEventListener('click', function doClick(clickEvent) {
-  clickEvent.preventDefault();
+document.querySelector('.target').addEventListener('click', function doClick(evt) {
+  evt.preventDefault();
   browse.click();
 });
 
