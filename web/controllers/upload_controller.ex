@@ -27,6 +27,10 @@ defmodule Eientei.UploadController do
     json conn, resp
   end
 
+  def upload(conn, _params) do
+    json conn, failure("Invalid params used! Please send a POST request with a single file under the file key!")
+  end
+
   defp success(name), do: %{"url" => "/f/#{name}", "name" => name, "success" => true}
   defp failure(reason), do: %{"url" => "/", "success" => false, "reason" => reason}
 

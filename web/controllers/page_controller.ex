@@ -95,10 +95,10 @@ defmodule Eientei.PageController do
         %{status_code: 200} -> :redirect
         %{status_code: 301} -> :redirect
         %{status_code: 302} -> :redirect
-        %{status_code: status} ->  :no_file
+        %{status_code: _status} ->  :no_file
       end
   end
-  defp check_fallback(file) do
+  defp check_fallback(_file) do
     :no_file
   end
 end
