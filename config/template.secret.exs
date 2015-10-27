@@ -37,7 +37,12 @@ config :eientei,
   # If you want to serve files at f.service.tld set that here. Please don't add a trailing /
   contact_email: "mycontactaddress@email.com",
   # Max UL size in MegaBytes
-  max_upload_size: 32
+  max_upload_size: 32,
+  # Maximum number of cache entries.
+  # For safety purposes do not let
+  # max_cache_size * max_upload_size/1000
+  # exceed your RAM amount(in gigabytes))
+  max_cache_size: 100
 
 # DATABSE CONFIGURATION
 config :eientei, Eientei.Repo,

@@ -2,6 +2,7 @@ defmodule Eientei.UploadController do
   use Eientei.Web, :controller
 
   @max_upload_size Application.get_env(:eientei, :max_upload_size)
+  @max_cache_size Application.get_env(:eientei, :max_cache_size)
   @use_ia Application.get_env(:eientei, :use_ia_archive)
 
   @illegal_exts [".ade", ".adp", ".bat", ".chm", ".cmd", ".com", ".cpl", ".exe", ".hta", ".ins", ".isp", ".jse", ".lib", ".lnk", ".mde", ".msc", ".msp", ".mst", ".pif", ".scr", ".sct", ".shb", ".sys", ".vb", ".vbe", ".vbs", ".vxd", ".wsc", ".wsf", ".wsh"]
@@ -65,7 +66,18 @@ defmodule Eientei.UploadController do
     ConCache.put(:file_cache, full_name, r)
     hash = md5(r)
     # Perhaps find a better place to do this
-    Task.start(fn -> ConCache.put(:file_cache, full_name, r) end)
+    max = @max_cache_size
+    Task.start(fn ->
+      ets = ConCache.ets(:file_cache)
+      size = :ets.info(ets) |> Keyword.get(:size)
+      cond do
+        size >= max ->
+          ConCache.delete(:file_cache, :ets.first(ets))
+          ConCache.put(:file_cache, full_name, r)
+        size < max ->
+          ConCache.put(:file_cache, full_name, r)
+      end
+    end)
     %{size: size} = File.stat! loc
 
     query = from u in Eientei.Upload,
@@ -74,7 +86,7 @@ defmodule Eientei.UploadController do
         limit: 1
 
     case Eientei.Repo.one(query) do
-      nil -> 
+      nil ->
         changeset = Eientei.Upload.changeset(%Eientei.Upload{}, %{:name => name, :location => loc, :hash => hash, :filename => orig_name, :size => size})
         {:ok, _user} = Eientei.Repo.insert(changeset)
         success full_name

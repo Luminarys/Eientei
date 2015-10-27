@@ -25,6 +25,7 @@ defmodule Eientei.PageController do
 
   @use_fallback Application.get_env(:eientei, :fallback_service)
   @fallback_url Application.get_env(:eientei, :fallback_service_url)
+  @max_cache_size Application.get_env(:eientei, :max_cache_size)
 
   def file(conn, %{"file" => file}) do
     require Pipe
@@ -44,7 +45,18 @@ defmodule Eientei.PageController do
         |> put_resp_content_type(Plug.MIME.path(file))
         |> send_resp(200, val)
       {:file, loc} ->
-        Task.start(fn -> ConCache.put(:file_cache, file, File.read! loc) end)
+        max = @max_cache_size
+        Task.start(fn ->
+          ets = ConCache.ets(:file_cache)
+          size = :ets.info(ets) |> Keyword.get(:size)
+          cond do
+            size >= max ->
+              ConCache.delete(:file_cache, :ets.first(ets))
+              ConCache.put(:file_cache, file, File.read! loc)
+            size < max ->
+              ConCache.put(:file_cache, file, File.read! loc)
+          end
+        end)
          conn
          |> put_resp_content_type(Plug.MIME.path(file))
          |> send_file(200, loc)
