@@ -54,7 +54,7 @@ function uploadFile(file, progress) {
     if (respStatus === 200) {
       const response = JSON.parse(xhr.responseText);
       if (response.success) {
-        progress.innerHTML = ['<a href="', response.url, '">', response.name, '</a>'].join('');
+        progress.innerHTML = ['<a href="', response.url, '" target="_BLANK">', response.name, '</a>'].join('');
       } else {
         progress.innerHTML = ['Error: ', response.reason].join('');
       }
@@ -93,24 +93,28 @@ function handleDragDrop(evt) {
   }
 }
 
-window.addEventListener('dragenter', dragNOP, false);
-window.addEventListener('dragleave', dragNOP, false);
-window.addEventListener('dragover', dragNOP, false);
-window.addEventListener('drop', handleDragDrop, false);
-
-browse.addEventListener('change', function onChange() {
+function uploadFiles() {
   const len = browse.files.length;
   for (let i = 0; i < len; i++) {
     const file = browse.files[i];
     const row = addRow(file);
     uploadFile(file, row);
   }
-});
+}
 
-document.querySelector('.target').addEventListener('click', function doClick(evt) {
+function selectFiles(evt) {
   evt.preventDefault();
   browse.click();
-});
+}
+
+window.addEventListener('dragenter', dragNOP, false);
+window.addEventListener('dragleave', dragNOP, false);
+window.addEventListener('dragover', dragNOP, false);
+window.addEventListener('drop', handleDragDrop, false);
+
+browse.addEventListener('change', uploadFiles);
+
+document.querySelector('.target').addEventListener('click', selectFiles);
 
 /*
   paste.addEventListener('keydown', function() {

@@ -61,10 +61,10 @@ defmodule Eientei.UploadController do
     new_path = "files/" <> name
     # Move file, since Elixir seems to not provide an equivalent
     System.cmd("mv", [path, new_path])
-    {:ok, {file, new_name, name, new_path, old_name}}
+    {:ok, {file, name, new_path, old_name}}
   end
 
-  defp generate_db_entry({_file, name, full_name, loc, orig_name}) do
+  defp generate_db_entry({_file, full_name, loc, orig_name}) do
     import Ecto.Query, only: [from: 2]
     r = File.read! loc
     ConCache.put(:file_cache, full_name, r)
@@ -74,11 +74,17 @@ defmodule Eientei.UploadController do
     Task.start(fn ->
       ets = ConCache.ets(:file_cache)
       size = :ets.info(ets) |> Keyword.get(:size)
+      require Logger
       cond do
         size >= max ->
-          ConCache.delete(:file_cache, :ets.first(ets))
+          # High quality algorithms right here
+          :random.seed(:os.timestamp)
+          {item, _} = Enum.random(ets |> :ets.tab2list)
+          Logger.log :debug, "Cache is too big, deleting #{item} and adding #{full_name}"
+          ConCache.delete(:file_cache, item)
           ConCache.put(:file_cache, full_name, r)
         size < max ->
+          Logger.log :debug, "Adding #{full_name} to the cache"
           ConCache.put(:file_cache, full_name, r)
       end
     end)
@@ -91,12 +97,12 @@ defmodule Eientei.UploadController do
 
     case Eientei.Repo.one(query) do
       nil ->
-        changeset = Eientei.Upload.changeset(%Eientei.Upload{}, %{:name => name, :location => loc, :hash => hash, :filename => orig_name, :size => size})
+        changeset = Eientei.Upload.changeset(%Eientei.Upload{}, %{:name => full_name, :location => loc, :hash => hash, :filename => orig_name, :size => size})
         {:ok, _user} = Eientei.Repo.insert(changeset)
         success full_name
       location ->
         File.rm! loc
-        changeset = Eientei.Upload.changeset(%Eientei.Upload{}, %{:name => name, :location => location, :hash => hash, :filename => orig_name, :size => size})
+        changeset = Eientei.Upload.changeset(%Eientei.Upload{}, %{:name => full_name, :location => location, :hash => hash, :filename => orig_name, :size => size})
         {:ok, _user} = Eientei.Repo.insert(changeset)
         success full_name
     end

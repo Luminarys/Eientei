@@ -47,16 +47,23 @@ defmodule Eientei.PageController do
       {:file, loc} ->
         max = @max_cache_size
         Task.start(fn ->
+          require Logger
           ets = ConCache.ets(:file_cache)
           size = :ets.info(ets) |> Keyword.get(:size)
           cond do
             size >= max ->
-              ConCache.delete(:file_cache, :ets.first(ets))
+              # High quality algorithms right here
+              :random.seed(:os.timestamp)
+              {item, _} = Enum.random(ets |> :ets.tab2list)
+              Logger.log :debug, "Cache is too big, deleting #{item} and adding #{file}"
+              ConCache.delete(:file_cache, item)
               ConCache.put(:file_cache, file, File.read! loc)
             size < max ->
+              Logger.log :debug, "Adding #{file} to the cache"
               ConCache.put(:file_cache, file, File.read! loc)
           end
         end)
+
          conn
          |> put_resp_content_type(Plug.MIME.path(file))
          |> send_file(200, loc)
@@ -83,7 +90,7 @@ defmodule Eientei.PageController do
   end
 
   defp check_db(file) do
-    case Eientei.Repo.get_by(Eientei.Upload, name: Path.basename(file, Path.extname(file))) do
+    case Eientei.Repo.get_by(Eientei.Upload, name: file) do
       nil -> {:ok, file}
       %{location: location} -> {:file, location}
     end

@@ -6,6 +6,7 @@ A simple file uploading and sharing service.
 * Simple uploading, no registration required
 * Automated archival of files to the Internet Archive
 * Fallback service that can be used if migrating from another Pomf clone
+* A built in LRU-like cache which enables fast file access
 
 ## Installation
 ### Prerequisites
