@@ -33,6 +33,11 @@ A simple file uploading and sharing service.
 Alternatively you can run `./deploy.sh` which will start your server on either port 21111 or 21112 depending on which one is occupied. You can use this to do upgrades production, setting your nginx to try the 21111 server then 21112 with an upstream block and then just starting a new instance after an upgrade and shutting off the old one.
 2. Success! You have succesfully started Eientei and it will be running on port 21111 or the one you defined. You should now setup nginx or some other web service to reverse proxy connections to the service.
 
+### Archiving
+* For privacy reasons I don't have immediate auto-archiving currently enabled.
+* You may manually archive all currently unarchived files by running `MIX_ENV=prod mix archive.files`
+* I suggest you run this on a semi-regular basis
+
 ## TODO
 1. Bug fixes/general code checks
 2. Custom styling
