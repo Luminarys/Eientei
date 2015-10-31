@@ -5,6 +5,7 @@ defmodule Eientei.PageView do
   defp service_domain, do:  Application.get_env(:eientei, :service_domain)
   defp contact_email, do:  Application.get_env(:eientei, :contact_email)
   defp max_upload_size, do:  Application.get_env(:eientei, :max_upload_size)
+  defp max_file_size, do:  Application.get_env(:eientei, :max_file_size)
 
   defp use_ia, do: Application.get_env(:eientei, :use_ia_archive)
   defp ia_service_name, do: Application.get_env(:eientei, :ia_service_name)

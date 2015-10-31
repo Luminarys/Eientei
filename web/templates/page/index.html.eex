@@ -1,6 +1,6 @@
   <div id="jumbotron">
     <h1>Fuwa~</h1>
-    <p class="lead">Max upload size is <%= max_upload_size %> MB.</p>
+    <p class="lead">Max file size is <%= max_file_size %> MB.</p>
     <a href="#" class="target">Select or drop file(s)</a>
     <input id="browse" class="hidden" type="file" multiple="">
     <table class="table">

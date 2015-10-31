@@ -7,10 +7,10 @@
     <li><%= service_name %> is a free file hosting service powered by Eientei.</li>
     <li><%= service_name %> does NOT support Internet Explorer and older versions of Firefox, Chrome, Opera and Safari.</li>
     <li>We currently are hosting <%= get_file_count %> uploads totalling <%= get_total_file_size %> megabytes in size.</li>
-    <li>The max file size is <%= max_upload_size %>MB, hopefully I won't have to change this to a even lower number.</li>
+    <li>The max file size is <%= max_file_size %>MB, and you can upload up to <%= max_upload_size %> MB at a time using the API.</li>
     <li>No child porn, malware, or anything illegal under French laws.</li>
     <li>Certain executable filetypes have been disallowed.</li>
-    <li>No data is collected or logged by us. This won't change.</li>
+    <li>No data is logged by us. However, IPs are held temporarily in application memory to allow for rate-limiting of uploads.</li>
     <li>If any changes to these policies happen you will be informed about them.</li>
     <li>I will keep the site as transparent as possible. This will include any files that I remove will be publically listed and have a copy of the DMCA notice. For more information please visit the <a href="/transparency">transparency information</a> page.</li>
   </ul>

@@ -1,7 +1,7 @@
 defmodule Eientei.UploadController do
   use Eientei.Web, :controller
 
-  @max_upload_size Application.get_env(:eientei, :max_upload_size)
+  @max_file_size Application.get_env(:eientei, :max_file_size)
   @max_cache_size Application.get_env(:eientei, :max_cache_size)
   @use_ia Application.get_env(:eientei, :use_ia_archive)
 
@@ -35,6 +35,7 @@ defmodule Eientei.UploadController do
     name_len = 6
     Pipe.pipe_matching val, {:ok, val},
     {:ok, file}
+    |> check_file_size
     |> check_magic_number
     |> gen_name(name_len)
     |> move_file
@@ -44,6 +45,14 @@ defmodule Eientei.UploadController do
   defp file_success(name, old_name), do: %{"url" => "#{@service_url}/f/#{name}", "name" => old_name, "success" => true}
   defp file_failure(name, reason), do: %{"name" => name, "success" => false, "reason" => reason}
   defp failure(reason), do: %{"success" => false, "reason" => reason}
+
+  defp check_file_size(file) do
+    %{size: size} = File.stat! file.path
+    case size > @max_file_size * 1000 * 1000 do
+      false -> {:ok, file}
+      true -> file_failure file.filename, "File too big!"
+    end
+  end
 
   defp check_magic_number(file) do
     case is_exe(hd(Enum.take(File.stream!(file.path),1))) do
