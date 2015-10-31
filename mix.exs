@@ -3,7 +3,7 @@ defmodule Eientei.Mixfile do
 
   def project do
     [app: :eientei,
-     version: "0.3.1",
+     version: "0.3.2",
      elixir: "~> 1.0",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix] ++ Mix.compilers,
@@ -39,6 +39,7 @@ defmodule Eientei.Mixfile do
      {:pipe, "~> 0.0.2"},
      {:con_cache, "~> 0.9.0"},
      {:ex_rated, "~> 0.0.6"},
+     {:plug_cloudflare, ">= 1.2.0"},
      {:cowboy, "~> 1.0"}]
   end
 end

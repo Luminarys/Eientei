@@ -43,7 +43,8 @@ config :eientei,
   # For safety purposes do not let
   # max_cache_size * max_upload_size/1000
   # exceed your RAM amount(in gigabytes))
-  max_cache_size: 100
+  max_cache_size: 100,
+  use_cloudflare: false
 
 # RATE LIMITING
 # This should be used to block spam.

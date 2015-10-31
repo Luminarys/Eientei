@@ -24,6 +24,12 @@ defmodule Eientei.Endpoint do
 
   @max_upload_size Application.get_env(:eientei, :max_upload_size)
 
+  @use_cloudflare Application.get_env(:eientei, :use_cloudflare)
+
+  if @use_cloudflare do
+    plug Plug.CloudFlare
+  end
+
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
