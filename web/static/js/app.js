@@ -59,7 +59,9 @@ function uploadFile(file, progress) {
         progress.innerHTML = ['Error: ', response.reason].join('');
       }
     } else if (respStatus === 413) {
-      progress.innerHTML = 'File too big!';
+      progress.innerHTML = 'I-it\'s too big Onii-chan!';
+    } else if (respStatus === 429) {
+      progress.innerHTML = 'T-too much Onii-chan!';
     } else {
       progress.innerHTML = 'Server error!';
     }

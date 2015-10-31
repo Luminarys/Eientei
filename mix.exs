@@ -3,7 +3,7 @@ defmodule Eientei.Mixfile do
 
   def project do
     [app: :eientei,
-     version: "0.3.0",
+     version: "0.3.1",
      elixir: "~> 1.0",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix] ++ Mix.compilers,
@@ -17,7 +17,7 @@ defmodule Eientei.Mixfile do
   # Type `mix help compile.app` for more information
   def application do
     [mod: {Eientei, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger,
+     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :ex_rated,
                     :phoenix_ecto, :postgrex, :httpoison, :con_cache]]
   end
 
@@ -38,6 +38,7 @@ defmodule Eientei.Mixfile do
      {:httpoison, "~> 0.7.4"},
      {:pipe, "~> 0.0.2"},
      {:con_cache, "~> 0.9.0"},
+     {:ex_rated, "~> 0.0.6"},
      {:cowboy, "~> 1.0"}]
   end
 end

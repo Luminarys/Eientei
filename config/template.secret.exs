@@ -45,6 +45,14 @@ config :eientei,
   # exceed your RAM amount(in gigabytes))
   max_cache_size: 100
 
+# RATE LIMITING
+# This should be used to block spam.
+config :eientei,
+  # Interval in seconds
+  rate_access_interval: 60,
+  # NUmber of files which can be uploaded during the interval
+  rate_access_usage: 20
+
 # DATABSE CONFIGURATION
 config :eientei, Eientei.Repo,
   adapter: Ecto.Adapters.Postgres,

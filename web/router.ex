@@ -1,5 +1,6 @@
 defmodule Eientei.Router do
   use Eientei.Web, :router
+  import Eientei.RateLimit
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -13,6 +14,7 @@ defmodule Eientei.Router do
   end
 
   pipeline :api do
+    plug :rate_limit
     plug :accepts, ["json"]
   end
 
