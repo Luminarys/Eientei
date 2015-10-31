@@ -27,19 +27,27 @@ const browse = document.getElementById('browse');
 
 function addRow(file) {
   const row = document.createElement('tr');
+
   const name = document.createElement('td');
   name.textContent = file.name;
+
   const progressCell = document.createElement('td');
+
   const progress = document.createElement('div');
-  progressCell.appendChild(progress);
   progress.className = 'progress';
+
   const progressBar = document.createElement('div');
   progressBar.style.width = '0%';
   progressBar.textContent = '0%';
   progressBar.className = 'progress-bar';
+
   progress.appendChild(progressBar);
+
+  progressCell.appendChild(progress);
+
   row.appendChild(name);
   row.appendChild(progressCell);
+
   document.getElementById('files').appendChild(row);
   return progressCell;
 }
@@ -51,19 +59,24 @@ function uploadFile(file, progress) {
 
   xhr.onload = function xhrLoader() {
     const respStatus = xhr.status;
-    if (respStatus === 200) {
-      const response = JSON.parse(xhr.responseText).file;
-      if (response.success) {
-        progress.innerHTML = ['<a href="', response.url, '" target="_BLANK">', response.name, '</a>'].join('');
-      } else {
-        progress.innerHTML = ['Error: ', response.reason].join('');
-      }
-    } else if (respStatus === 413) {
-      progress.innerHTML = 'I-it\'s too big Onii-chan!';
-    } else if (respStatus === 429) {
-      progress.innerHTML = 'T-too much Onii-chan!';
-    } else {
-      progress.innerHTML = 'Server error!';
+    switch (xhr.status) {
+      case 200:
+        const response = JSON.parse(xhr.responseText).file;
+        if (response.success) {
+          progress.innerHTML = ['<a href="', response.url, '" target="_BLANK">', response.name, '</a>'].join('');
+        } else {
+          progress.innerHTML = ['Error: ', response.reason].join('');
+        }
+        return;
+      case 413:
+        progress.innerHTML = 'I-it\'s too big Onii-chan!';
+        return;
+      case 429:
+        progress.innerHTML = 'T-too much Onii-chan!';
+        return;
+      default:
+        progress.innerHTML = 'Server error!';
+        return;
     }
   };
 
@@ -88,14 +101,14 @@ function dragNOP(evt) {
 function handleDragDrop(evt) {
   dragNOP(evt);
   const len = evt.dataTransfer.files.length;
-  for (let i = 0; i < len; i++) {
-    const file = evt.dataTransfer.files[i];
+  for (let file of evt.dataTransfer.files) {
     const row = addRow(file);
     uploadFile(file, row);
   }
 }
 
 function uploadFiles() {
+  // mfw no iterators
   const len = browse.files.length;
   for (let i = 0; i < len; i++) {
     const file = browse.files[i];
