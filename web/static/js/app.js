@@ -52,7 +52,7 @@ function uploadFile(file, progress) {
   xhr.onload = function xhrLoader() {
     const respStatus = xhr.status;
     if (respStatus === 200) {
-      const response = JSON.parse(xhr.responseText);
+      const response = JSON.parse(xhr.responseText).file;
       if (response.success) {
         progress.innerHTML = ['<a href="', response.url, '" target="_BLANK">', response.name, '</a>'].join('');
       } else {

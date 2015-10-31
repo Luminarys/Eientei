@@ -33,6 +33,7 @@ config :eientei,
 config :eientei,
   service_name: "Service Name",
   service_domain: "service.tld",
+  service_url: "https://service.tld",
   # This should be used to specify a response url. Make sure to set http/https properly
   # If you want to serve files at f.service.tld set that here. Please don't add a trailing /
   contact_email: "mycontactaddress@email.com",
