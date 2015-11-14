@@ -2,7 +2,7 @@ defmodule Eientei.RateLimit do
   import Phoenix.Controller, only: [json: 2]
   import Plug.Conn, only: [put_status: 2, halt: 1]
 
-  @interval Application.get_env(:eientei, :rate_interval)
+  @interval Application.get_env(:eientei, :rate_interval) * 1000
   @max_requests Application.get_env(:eientei, :rate_access_max_requests)
   @max_data Application.get_env(:eientei, :rate_data_usage)
 
@@ -14,10 +14,12 @@ defmodule Eientei.RateLimit do
   end
 
   defp check_amount_rate(conn) do
+    interval_milliseconds = @interval * 1000
     ExRated.check_rate(bucket_name(conn), @interval, @max_requests)
   end
 
   def check_data_rate(conn, 0) do
+    interval_milliseconds = @interval * 1000
     case ExRated.check_rate(data_bucket_name(conn), @interval, @max_data) do
       {:ok, _count} -> :ok
       _ -> :rate_exceeded

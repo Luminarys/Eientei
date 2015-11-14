@@ -53,8 +53,8 @@ config :eientei,
 # RATE LIMITING
 # This should be used to block spam.
 config :eientei,
-  # Interval in milliseconds. Multiply by 1000 for seconds.
-  rate_interval: 60 * 1000,
+  # Interval in seconds
+  rate_interval: 60,
   # NUmber of files which can be uploaded during the interval
   rate_access_usage: 20,
   # Amount of data(in megabytes) which can be uploaded during the interval
