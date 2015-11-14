@@ -46,15 +46,19 @@ config :eientei,
   # max_cache_size * max_upload_size/1000
   # exceed your RAM amount(in gigabytes))
   max_cache_size: 100,
-  use_cloudflare: false
+  use_cloudflare: false,
+  # If enabled this blocks embedded javascript execution on files.
+  use_csrf_protection: false
 
 # RATE LIMITING
 # This should be used to block spam.
 config :eientei,
   # Interval in seconds
-  rate_access_interval: 60,
+  rate_interval: 60,
   # NUmber of files which can be uploaded during the interval
-  rate_access_usage: 20
+  rate_access_usage: 20,
+  # Amount of data(in megabytes) which can be uploaded during the interval
+  rate_data_usage: 200
 
 # DATABSE CONFIGURATION
 config :eientei, Eientei.Repo,

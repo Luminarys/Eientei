@@ -2,7 +2,7 @@ defmodule Eientei.Archiver do
   use GenServer
 
   @make_bucket {"x-amz-auto-make-bucket", "1"}
-  @collection {"x-archive-meta01-collection", "opensource"}
+  @collection {"x-archive-meta01-collection", "opensource_media"}
   @media_type {"x-archive-meta-mediatype", "web"}
   @service Application.get_env(:eientei, :ia_service_name)
 

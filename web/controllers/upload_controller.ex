@@ -12,10 +12,15 @@ defmodule Eientei.UploadController do
   def upload(conn, %{"file" => file}) when is_list(file) do
     json conn, failure("You can only send individual files using the file param!")
   end
-  def upload(conn, %{"file" => file}), do: json conn, %{"file" => upload_file(file)}
+  def upload(conn, %{"file" => file}) do
+    json conn, %{"file" => upload_file({file, conn})}
+  end
 
-  def upload(conn, %{"files" => files}) when is_list(files), do: json conn, %{"files" => Enum.map(files, &upload_file/1)}
-  def upload(conn, %{"files" => files}) when not is_list(files) do
+  def upload(conn, %{"files" => files}) when is_list(files) do
+    cfiles = Enum.map(files, &({&1, conn}))
+    json conn, %{"files" => Enum.map(cfiles, &upload_file/1)}
+  end
+  def upload(conn, %{"files" => files}) do
     json conn, failure("You can only send a list of files with the files param!")
   end
 
@@ -24,7 +29,7 @@ defmodule Eientei.UploadController do
     json conn, failure("Please send files using the file or files key!")
   end
 
-  defp upload_file(file) do
+  defp upload_file({file, conn}) do
     # Randomly generate unused file name
     # Return filename as url, queue an async check
     # Check hashes file, sees if hash is in db
@@ -37,6 +42,7 @@ defmodule Eientei.UploadController do
     {:ok, file}
     |> check_file_size
     |> check_magic_number
+    |> check_data_rate(conn)
     |> gen_name(name_len)
     |> move_file
     |> generate_db_entry
@@ -58,6 +64,14 @@ defmodule Eientei.UploadController do
     case is_exe(hd(Enum.take(File.stream!(file.path),1))) do
       false -> {:ok, file}
       true -> file_failure file.filename, "Exe's are not allowed!"
+    end
+  end
+
+  defp check_data_rate(file, conn) do
+    %{size: size} = File.stat! file.path
+    case Eientei.RateLimit.check_data_rate(conn, div(size, (1000 * 1000))) do
+      :ok -> {:ok, file}
+      :rate_exceeded -> file_failure file.filename, "You have exceeded the maximum rate of data uploaded"
     end
   end
 

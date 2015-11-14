@@ -27,8 +27,13 @@ defmodule Eientei.Router do
     get "/tools", PageController, :tools
   end
 
+  @use_csrf_protection Application.get_env(:eientei, :use_csrf_protection)
   scope "/", Eientei do
-    pipe_through [:browser]
+    if @use_csrf_protection do
+      pipe_through [:browser, :csrf]
+    else
+      pipe_through [:browser]
+    end
 
     # Let's not break compat quite yet
     get "/:file", PageController, :file
