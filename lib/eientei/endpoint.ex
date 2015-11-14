@@ -30,12 +30,12 @@ defmodule Eientei.Endpoint do
     plug Plug.CloudFlare
   end
 
-  max_size = @max_upload_size * 1000 * 1000
+  max_size = @max_upload_size
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
     json_decoder: Poison,
-    length: max_size
+    length: max_size * 1000 * 1000
 
   plug Plug.MethodOverride
   plug Plug.Head
