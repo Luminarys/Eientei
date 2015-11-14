@@ -2,7 +2,7 @@ defmodule Eientei.RateLimit do
   import Phoenix.Controller, only: [json: 2]
   import Plug.Conn, only: [put_status: 2, halt: 1]
 
-  @interval Application.get_env(:eientei, :rate_interval)
+  @interval Application.get_env(:eientei, :rate_interval) * 1000
   @max_requests Application.get_env(:eientei, :rate_access_max_requests)
   @max_data Application.get_env(:eientei, :rate_data_usage)
 
