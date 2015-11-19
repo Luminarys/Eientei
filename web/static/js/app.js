@@ -52,41 +52,53 @@ function addRow(file) {
   return progressCell;
 }
 
+function handleUploadProgress(evt) {
+  console.log(evt);
+  const xhr = evt.target;
+  console.log(xhr);
+  const bar = xhr.bar;
+  console.log(bar);
+  if (evt.lengthComputable) {
+    const progressPercent = Math.floor((evt.loaded / evt.total) * 100);
+    bar.style.width = [progressPercent, '%'].join('');
+    bar.textContent = [progressPercent, '%'].join('');
+   }
+}
+
+function handleUploadComplete(evt) {
+  const xhr = evt.target;
+  const respStatus = xhr.status;
+  const progress = xhr.progress;
+  switch (xhr.status) {
+    case 200:
+      const response = JSON.parse(xhr.responseText).file;
+      if (response.success) {
+        progress.innerHTML = ['<a href="', response.url, '" target="_BLANK">', response.name, '</a>'].join('');
+      } else {
+        progress.innerHTML = ['Error: ', response.reason].join('');
+      }
+      return;
+    case 413:
+      progress.innerHTML = 'I-it\'s too big Onii-chan!';
+      return;
+    case 429:
+      progress.innerHTML = 'T-too much Onii-chan!';
+      return;
+    default:
+      progress.innerHTML = 'Server error!';
+      return;
+  }
+};
+
 function uploadFile(file, progress) {
   const bar = progress.querySelector('.progress-bar');
   const xhr = new XMLHttpRequest();
   xhr.open('POST', '/api/upload');
+  xhr['progress'] = progress;
+  xhr.upload["bar"] = bar;
 
-  xhr.onload = function xhrLoader() {
-    const respStatus = xhr.status;
-    switch (xhr.status) {
-      case 200:
-        const response = JSON.parse(xhr.responseText).file;
-        if (response.success) {
-          progress.innerHTML = ['<a href="', response.url, '" target="_BLANK">', response.name, '</a>'].join('');
-        } else {
-          progress.innerHTML = ['Error: ', response.reason].join('');
-        }
-        return;
-      case 413:
-        progress.innerHTML = 'I-it\'s too big Onii-chan!';
-        return;
-      case 429:
-        progress.innerHTML = 'T-too much Onii-chan!';
-        return;
-      default:
-        progress.innerHTML = 'Server error!';
-        return;
-    }
-  };
-
-  xhr.upload.onprogress = function incProgress(evt) {
-    if (evt.lengthComputable) {
-      const progressPercent = Math.floor((evt.loaded / evt.total) * 100);
-      bar.style.width = [progressPercent, '%'].join('');
-      bar.textContent = [progressPercent, '%'].join('');
-    }
-  };
+  xhr.addEventListener('load', handleUploadComplete, false);
+  xhr.upload.onprogress = handleUploadProgress;
 
   const form = new FormData();
   form.append('file', file);
@@ -100,7 +112,6 @@ function dragNOP(evt) {
 
 function handleDragDrop(evt) {
   dragNOP(evt);
-  const len = evt.dataTransfer.files.length;
   for (let file of evt.dataTransfer.files) {
     const row = addRow(file);
     uploadFile(file, row);
