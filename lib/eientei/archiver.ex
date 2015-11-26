@@ -70,7 +70,7 @@ defmodule Eientei.Archiver do
         %{status_code: 400} ->
           # Try sending with no extension
           # If it fails then log an error
-          new_name = Path.basename(name, Path.extension(name))
+          new_name = Path.basename(name, Path.extname(name))
           {:ok, new_resp} = HTTPoison.put("http://s3.us.archive.org/#{@bucket_name}/#{new_name}",
                     {:file, "#{location}"},
                     headers)
