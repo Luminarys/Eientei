@@ -22,6 +22,8 @@ import 'deps/phoenix_html/web/static/js/phoenix_html';
 
 // var paste = document.getElementById('paste');
 // var pasteBtn = document.getElementById('paste-btn');
+import UploadButton from "./UploadButton";
+import FileSelector from "./FileSelector";
 
 const browse = document.getElementById('browse');
 
@@ -128,19 +130,24 @@ function uploadFiles() {
   }
 }
 
-function selectFiles(evt) {
-  evt.preventDefault();
-  browse.click();
-}
-
 window.addEventListener('dragenter', dragNOP, false);
 window.addEventListener('dragleave', dragNOP, false);
 window.addEventListener('dragover', dragNOP, false);
 window.addEventListener('drop', handleDragDrop, false);
 
-browse.addEventListener('change', uploadFiles);
+// browse.addEventListener('change', uploadFiles);
 
-document.querySelector('.target').addEventListener('click', selectFiles);
+// document.querySelector('.target').addEventListener('click', selectFiles);
+
+ReactDOM.render(
+  <UploadButton />,
+  document.getElementById('uploadButton')
+);
+
+ReactDOM.render(
+  <FileSelector />,
+  document.getElementById('uploadForm')
+);
 
 /*
   paste.addEventListener('keydown', function() {
