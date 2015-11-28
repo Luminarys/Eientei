@@ -54,7 +54,7 @@ defmodule Eientei.UploadController do
   defp check_file({file, conn}) do
     use Pipe
     Pipe.pipe_matching val, {:ok, val},
-    file
+    {:ok, file}
     |> check_file_size
     |> check_magic_number
     |> check_data_rate(conn)
