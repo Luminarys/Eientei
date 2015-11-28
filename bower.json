@@ -1,0 +1,21 @@
+{
+  "name": "eientei",
+  "description": "Simple file uploader with an advanced feature set",
+  "main": "",
+  "authors": [
+    "Luminarys <kizunanohikari@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Luminarys/Eientei",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.14.3"
+  }
+}

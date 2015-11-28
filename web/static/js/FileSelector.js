@@ -18,7 +18,7 @@ export default React.createClass({
   render: function() {
     return (
       <div>
-        <input id='browse' className='hidden' type='file' onChange={this.handleFilesSelected} />
+        <input id='browse' className='hidden' type='file' onChange={this.handleFilesSelected} multiple />
           <table className='table'>
               <thead>
                 <tr>
