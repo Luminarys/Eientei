@@ -63,7 +63,7 @@ defmodule Eientei.UploadController do
   defp check_file_size(file) do
     %{size: size} = File.stat! file.path
     case size > @max_file_size * 1000 * 1000 do
-      false -> {:ok, file}
+      false -> file
       true -> file_failure file.filename, "File too big!"
     end
   end

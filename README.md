@@ -12,6 +12,7 @@ A simple file uploading and sharing service.
 ### Prerequisites
 * Elixir
 * NPM
+* Bower
 * PostgreSQL
 
 ### Configuration
