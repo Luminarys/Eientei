@@ -1,7 +1,6 @@
   <div id="jumbotron">
     <h1>Fuwa~</h1>
     <p class="lead">Max file size is <%= max_file_size %> MB.</p>
-    <div id="uploadButton"></div>
     <div id="uploadForm"></div>
     <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
     <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
