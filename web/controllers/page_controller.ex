@@ -57,7 +57,7 @@ defmodule Eientei.PageController do
     conn
     |> put_status(404)
     |> put_flash(:error, "The file you tried to view does not exist!")
-    |> render "index.html"
+    |> render("index.html")
   end
 
   defp cache_file(filename, path) do

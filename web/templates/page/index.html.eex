@@ -1,10 +1,13 @@
   <div id="jumbotron">
     <h1>Fuwa~</h1>
     <p class="lead">Max file size is <%= max_file_size %> MB.</p>
-    <div id="uploadForm"></div>
+    <div id="uploadForm">
+        <!-- Filler to allow for smooth load -->
+        <div class="target">Select or drop file(s)</div>
+        <table class="table"><thead><tr><td style="width: 30%;"></td><td style="width: 70%;"></td></tr></thead></table>
+    </div>
     <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
     <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-    
     <p class="alert alert-info"><strong>Virus scans are a daily routine</strong> &mdash; if a file gets detected it will be removed without further notice.</p>
     <%= if use_ia do %>
     <p class="alert alert-info"><strong>Files are routinely archived</strong> &mdash; this happens on a monthly basis, and you can find files <a href="https://archive.org/details/<%= ia_service_name %>_archive/">here</a>.</p>

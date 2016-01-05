@@ -5,7 +5,6 @@ exports.config = {
       joinTo: 'js/app.js',
       order: {
         before: [
-          /^bower_components/,
           /^web\/static\/vendor/
         ]
       }
