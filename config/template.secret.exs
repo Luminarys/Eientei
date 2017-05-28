@@ -22,11 +22,11 @@ config :eientei,
 config :eientei,
   fallback_service: false,
   # Don't put a trailing / on this - e.g. for the original Pomf, this would be  a.pomf.se
-  fallback_service_url: "https://previous-file-hosting-domain.tld"
+  fallback_service_url: "https://previous-file-hosting-domain.tld",
   # Set these two options to create an alert on the front page telling users how to find your fallback/old service
   fallback_service_alert: false,
   # Don't put a http(s) on this, just domain.tld
-  fallback_service_home_page: "previous-homepage-url.tld",
+  fallback_service_home_page: "previous-homepage-url.tld"
 
 # GENERAL CONFIGURATION
 # Note that it is assumed that you have an abuse@ email
